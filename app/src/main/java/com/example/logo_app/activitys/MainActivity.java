@@ -1,10 +1,13 @@
-package com.example.logo_app;
+package com.example.logo_app.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.logo_app.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -13,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
     }
     public void init(){
         trophy=findViewById(R.id.main_trophy_btn);
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v.getId()==play.getId()){
 
+            Intent intent= new Intent(MainActivity.this, levels_activity.class);
+            startActivity(intent);
 
         }
         if(v.getId()==trophy.getId()){
