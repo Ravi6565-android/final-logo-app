@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.logo_app.R;
 import com.example.logo_app.adapters.level_adapter;
@@ -13,7 +15,7 @@ import com.example.logo_app.adapters.level_adapter;
 import java.util.ArrayList;
 
 public class levels_activity extends AppCompatActivity {
-
+int pos=0;
     RecyclerView recyclerView;
     ArrayList levels= new ArrayList();
     @Override
@@ -22,11 +24,27 @@ public class levels_activity extends AppCompatActivity {
         setContentView(R.layout.activity_levels);
         levelfill();
         recyclerView=findViewById(R.id.recycler_levels);
-        level_adapter  level_adapter= new level_adapter(levels_activity.this,levels);
+        level_adapter  level_adapter= new level_adapter(levels_activity.this,levels, new position_get() {
+            @Override
+            public void get_position(int i) {
+               pos=i;
+            }
+        });
+
         LinearLayoutManager manager= new LinearLayoutManager(levels_activity.this);
         manager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(level_adapter);
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(levels_activity.this, logo_show_activity.class);
+                intent.putExtra("position",pos);
+                System.out.println("adapter position=="+pos);
+                startActivity(intent);
+            }
+        });
+
 
 
     }

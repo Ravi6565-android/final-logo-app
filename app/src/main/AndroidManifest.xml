@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Logo_app"
         tools:targetApi="31" >
         <activity
-            android:name=".logo_show_activity"
+            android:name=".activitys.logo_show_activity"
             android:exported="false" />
         <activity
             android:name=".activitys.levels_activity"
