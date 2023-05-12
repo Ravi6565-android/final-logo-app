@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,20 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.logo_app.R;
 import com.example.logo_app.activitys.logo_show_activity;
-import com.example.logo_app.activitys.position_get;
+
 
 import java.util.ArrayList;
 
 public class level_adapter extends RecyclerView.Adapter<level_adapter.userholder> {
-    int pos;
     Context context;
-    position_get position_get;
+
+
 
     ArrayList<String> levels;
-    public level_adapter(Context context, ArrayList levels, position_get position_get) {
+    public level_adapter(Context context, ArrayList levels) {
         this.context=context;
         this.levels=levels;
-        this.position_get=position_get;
 
     }
 
@@ -42,8 +42,14 @@ public class level_adapter extends RecyclerView.Adapter<level_adapter.userholder
     public void onBindViewHolder(@NonNull level_adapter.userholder holder, int position) {
         holder.imageView.setImageResource(R.drawable.playbutton);
         holder.textView.setText(levels.get(position));
-    position_get.get_position(holder.getAdapterPosition());
-        System.out.println("holder position"+pos);
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,logo_show_activity.class);
+                intent.putExtra("pos", holder.getAdapterPosition());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -59,6 +65,7 @@ public class level_adapter extends RecyclerView.Adapter<level_adapter.userholder
             super(itemView);
             imageView=itemView.findViewById(R.id.recycler_item_imageview);
             textView=itemView.findViewById(R.id.recycler_item_text);
+
         }
     }
 }

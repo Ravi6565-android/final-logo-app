@@ -48,10 +48,16 @@ public class grid_adapter extends BaseAdapter {
         InputStream stream=null;
 
         try {
-            if(pos==2){
-                stream=context.getAssets().open("solved/"+image.get(position));
-            } if(pos==4){
-                stream=context.getAssets().open("unsolved/"+image.get(position));
+            if(pos==0){
+                stream=context.getAssets().open("level_1_us/"+image.get(position));
+            } if(pos==1){
+                stream=context.getAssets().open("level_2_us/"+image.get(position));
+            }if(pos==2){
+                stream=context.getAssets().open("level_3_us/"+image.get(position));
+            } if(pos==3){
+                stream=context.getAssets().open("level_4_us/"+image.get(position));
+            }if(pos==4){
+                stream=context.getAssets().open("level_5_us/"+image.get(position));
             }
 
         } catch (IOException e) {
