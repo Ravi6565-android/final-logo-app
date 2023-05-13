@@ -13,10 +13,10 @@
         >
 
         <ImageView
+            android:id="@+id/play_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/dell"
-            android:id="@+id/play_image" />
+            android:src="@drawable/dell" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,9 @@
             android:layout_height="match_parent"
             android:layout_weight="12"
             android:id="@+id/play_hint"
+            android:text="HINT"
+            android:background="#027707"
+            app:backgroundTint="@null"
             android:layout_marginHorizontal="20dp"
             />
         <Button
@@ -35,7 +38,10 @@
             android:layout_height="match_parent"
             android:layout_weight="17"
             android:id="@+id/play_clearall"
+            android:text="X"
             android:layout_marginHorizontal="20dp"
+            android:background="#F44336"
+            app:backgroundTint="@null"
 
             />
         <Button
@@ -44,7 +50,9 @@
             android:layout_weight="17"
             android:id="@+id/play_remove"
             android:layout_marginHorizontal="20dp"
-
+            android:background="#F44336"
+            android:text="cancel"
+            app:backgroundTint="@null"
             />
 
 
@@ -63,15 +71,17 @@
             android:layout_weight="4"
             android:orientation="horizontal"
             >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn0"
-            android:background="#C5C3C3"
-            app:backgroundTint="@null"
-            android:layout_marginHorizontal="3dp"
-            android:layout_weight="1"/>
-        <Button
+
+            <Button
+                android:id="@+id/btn0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_weight="1"
+                android:background="#C5C3C3"
+                app:backgroundTint="@null" />
+
+            <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn1"

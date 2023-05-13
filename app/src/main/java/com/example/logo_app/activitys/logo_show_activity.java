@@ -31,21 +31,21 @@ public class logo_show_activity extends AppCompatActivity {
         String images[];
         try {
             if(pos==0){
-                images=getAssets().list("level_1_us");
+                images=getAssets().list("level_1_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
             if(pos==1){
-                images=getAssets().list("level_2_us");
+                images=getAssets().list("level_2_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }if(pos==2){
-                images=getAssets().list("level_3_us");
+                images=getAssets().list("level_3_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
             if(pos==3){
-                images=getAssets().list("level_4_us");
+                images=getAssets().list("level_4_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }if(pos==4){
-                images=getAssets().list("level_5_us");
+                images=getAssets().list("level_5_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
 
@@ -60,8 +60,9 @@ public class logo_show_activity extends AppCompatActivity {
          @Override
          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
              Intent intent= new Intent(logo_show_activity.this,logo_play_activity.class);
-             intent.putExtra("image", (CharSequence) image);
-             intent.putExtra("asset",position);
+             intent.putExtra("asset",pos);
+             intent.putExtra("imgpos",position);
+             intent.putExtra("list", image.get(position));
              startActivity(intent);
          }
      });
