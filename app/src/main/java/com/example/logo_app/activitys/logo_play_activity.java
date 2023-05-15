@@ -59,7 +59,8 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         String[] split= s.split("\\.");
         System.out.println("slit name :"+split[0]);
        char[] ans= new char[50];
-        int cnt=split[0].length();
+       char[] ans1= new char[10];
+       ans1=split[0].toCharArray();
         for (int i=split[0].length();i<14;i++){
          char  rand= (char) (new Random().nextInt('z'-'a')+'a');
             System.out.println("random"+rand);
@@ -67,6 +68,9 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
            ans[i]=rand;
 
         }
+
+            ans=ans1;
+
 
 
         for (int i=0;i< ans.length;i++)
