@@ -13,8 +13,9 @@ import com.example.logo_app.R;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 
 public class logo_play_activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,6 +55,29 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         }
         Drawable drawable=Drawable.createFromStream(stream,null);
         imageView.setImageDrawable(drawable);
+
+        String[] split= s.split("\\.");
+        System.out.println("slit name :"+split[0]);
+       char[] ans= new char[50];
+        int cnt=split[0].length();
+        for (int i=split[0].length();i<14;i++){
+         char  rand= (char) (new Random().nextInt('z'-'a')+'a');
+            System.out.println("random"+rand);
+
+           ans[i]=rand;
+
+        }
+
+
+        for (int i=0;i< ans.length;i++)
+        {
+            System.out.println("before   :  "+ans[i]);
+        }
+        Collections.shuffle(Collections.singletonList(ans));
+        for (int i=0;i< ans.length;i++)
+        {
+            System.out.println("after   :  "+ans[i]);
+        }
 
     }
     public void init(){
