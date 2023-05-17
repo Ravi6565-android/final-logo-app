@@ -30,39 +30,15 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo_play);
-        imageView=findViewById(R.id.play_image);
-        init();
         int pos=getIntent().getIntExtra("imgpos",0);
         int asaetpos=getIntent().getIntExtra("asset",0);
+        String s = getIntent().getStringExtra("list");
 
         viewPager=findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos);
-        String s = getIntent().getStringExtra("list");
-        btn[0].setOnClickListener(this);
+        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos,s);
+        viewPager.setAdapter(pagerAdapter);
 
-        charcter_maker();
-        InputStream stream=null;
-        try {
-            if(asaetpos==0){
-                stream=getAssets().open("level_1_us/"+s);
-            }
-            if(asaetpos==1){
-                stream=getAssets().open("level_2_us/"+s);
-            }
-            if(asaetpos==2){
-                stream=getAssets().open("level_3_us/"+s);
-            }
-            if(asaetpos==3){
-                stream=getAssets().open("level_4_us/"+s);
-            }
-            if(asaetpos==4){
-                stream=getAssets().open("level_5_us/"+s);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Drawable drawable=Drawable.createFromStream(stream,null);
-        imageView.setImageDrawable(drawable);
+
 
 
 
