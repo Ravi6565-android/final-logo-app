@@ -1,13 +1,17 @@
 package com.example.logo_app.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.logo_app.R;
 import com.example.logo_app.activitys.logo_play_activity;
 
 public class pager_view_adapter extends PagerAdapter {
@@ -33,7 +37,16 @@ int pos,assetpos;
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        View view= LayoutInflater.from(context).inflate(R.layout.logo_play_item,container,false);
+        ImageView imageView;
+        Button btn[]= new Button[14];
+        for(int i=0;i<14;i++){
+            int id=context.getResources().getIdentifier("btn"+i,"id",context.getPackageName());
+            btn[i]=view.findViewById(id);
+        }
         return super.instantiateItem(container, position);
+
+
     }
 
     @Override
