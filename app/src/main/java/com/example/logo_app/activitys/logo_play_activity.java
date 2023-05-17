@@ -1,6 +1,8 @@
 package com.example.logo_app.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -10,10 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.logo_app.R;
+import com.example.logo_app.adapters.pager_view_adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
@@ -21,6 +24,7 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
 
     ImageView imageView;
     Button btn[]= new Button[14];
+    ViewPager  viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +32,15 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_logo_play);
         imageView=findViewById(R.id.play_image);
         init();
+        int pos=getIntent().getIntExtra("imgpos",0);
+        int asaetpos=getIntent().getIntExtra("asset",0);
+
+        viewPager=findViewById(R.id.viewPager);
+        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos);
+        String s = getIntent().getStringExtra("list");
         btn[0].setOnClickListener(this);
-       int pos=getIntent().getIntExtra("imgpos",0);
-       int asaetpos=getIntent().getIntExtra("asset",0);
-       String s = getIntent().getStringExtra("list");
-        System.out.println("Img="+s);
+
+        charcter_maker();
         InputStream stream=null;
         try {
             if(asaetpos==0){
@@ -56,32 +64,9 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         Drawable drawable=Drawable.createFromStream(stream,null);
         imageView.setImageDrawable(drawable);
 
-        String[] split= s.split("\\.");
-        System.out.println("slit name :"+split[0]);
-       char[] ans= new char[50];
-       char[] ans1= new char[10];
-       ans1=split[0].toCharArray();
-        for (int i=split[0].length();i<14;i++){
-         char  rand= (char) (new Random().nextInt('z'-'a')+'a');
-            System.out.println("random"+rand);
-
-           ans[i]=rand;
-
-        }
-
-            ans=ans1;
 
 
 
-        for (int i=0;i< ans.length;i++)
-        {
-            System.out.println("before   :  "+ans[i]);
-        }
-        Collections.shuffle(Collections.singletonList(ans));
-        for (int i=0;i< ans.length;i++)
-        {
-            System.out.println("after   :  "+ans[i]);
-        }
 
     }
     public void init(){
@@ -90,10 +75,34 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
             btn[i]=findViewById(id);
         }
     }
+    public void charcter_maker(){
+        String s = getIntent().getStringExtra("list");
+        ArrayList<Character> arrayList= new ArrayList<>();
+        String[] split= s.split("\\.");
+        System.out.println("slit name :"+split[0]);
+        char ans[]= new char[100];
+        ans=split[0].toCharArray();
+
+        for (int i = 0; i < ans.length; i++) {
+            arrayList.add(ans[i]);
+            System.out.println("ans=="+ans[i]);
+        }
+        for (int i=ans.length;i<14;i++){
+
+            char rand= (char) (new Random().nextInt('z'-'a')+'a');
+            arrayList.add(rand);
+            System.out.println("random=="+arrayList.get(i));
+
+        }
+        Collections.shuffle(arrayList);
+        for (int i = 0; i < btn.length; i++) {
+            btn[i].setOnClickListener(this);
+            btn[i].setText(""+arrayList.get(i));
+        }
+    }
 
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
+
     }
 }
