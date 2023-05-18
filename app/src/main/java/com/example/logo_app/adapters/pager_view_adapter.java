@@ -23,19 +23,21 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
 
 Context context;
 int pos,assetpos;
+    ArrayList<String> image;
     String s;
-    public pager_view_adapter(Context context, int pos, int assetpos, String s) {
+    public pager_view_adapter(Context context, int pos, int assetpos, String s, ArrayList<String> image) {
     this.assetpos=assetpos;
     this.pos=pos;
     this.context=context;
     this.s=s;
+    this.image=image;
 
     }
 
 
     @Override
     public int getCount() {
-        return 0;
+        return ;
     }
 
     @Override

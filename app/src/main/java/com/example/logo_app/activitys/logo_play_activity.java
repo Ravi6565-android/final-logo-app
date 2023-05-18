@@ -17,6 +17,7 @@ import com.example.logo_app.adapters.pager_view_adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -32,10 +33,37 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_logo_play);
         int pos=getIntent().getIntExtra("imgpos",0);
         int asaetpos=getIntent().getIntExtra("asset",0);
+        String images[];
+        ArrayList<String> image=new ArrayList<>();
+        try {
+
+            if(asaetpos==0){
+                images=getAssets().list("level_1_us/");
+                image=new ArrayList<>(Arrays.asList(images));
+            }
+            if(asaetpos==1){
+                images=getAssets().list("level_2_us/");
+                image=new ArrayList<>(Arrays.asList(images));
+            }if(asaetpos==2){
+                images=getAssets().list("level_3_us/");
+                image=new ArrayList<>(Arrays.asList(images));
+            }
+            if(asaetpos==3){
+                images=getAssets().list("level_4_us/");
+                image=new ArrayList<>(Arrays.asList(images));
+            }if(asaetpos==4){
+                images=getAssets().list("level_5_us/");
+                image=new ArrayList<>(Arrays.asList(images));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         String s = getIntent().getStringExtra("list");
 
         viewPager=findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos,s);
+        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos,s,image);
         viewPager.setAdapter(pagerAdapter);
 
 
