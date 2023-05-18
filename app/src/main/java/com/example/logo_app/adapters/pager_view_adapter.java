@@ -37,7 +37,7 @@ int pos,assetpos;
 
     @Override
     public int getCount() {
-        return ;
+        return image.size();
     }
 
     @Override
@@ -74,6 +74,7 @@ int pos,assetpos;
             System.out.println("random=="+arrayList.get(i));
 
         }
+        System.out.println("===="+s);
         Collections.shuffle(arrayList);
         for (int i = 0; i < btn.length; i++) {
             btn[i].setOnClickListener(this);
@@ -101,7 +102,9 @@ int pos,assetpos;
         }
         Drawable drawable=Drawable.createFromStream(stream,null);
         imageView.setImageDrawable(drawable);
-        return super.instantiateItem(container, position);
+        container.addView(view);
+        return container;
+       // return super.instantiateItem(container, position);
 
 
     }
