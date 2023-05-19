@@ -61,8 +61,8 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
 
         viewPager=findViewById(R.id.viewPager);
         PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this, imgpos, level,image,viewPager);
-        viewPager.setCurrentItem(imgpos);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(imgpos);
 
 
 

@@ -61,6 +61,8 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         layout = view.findViewById(R.id.linearplay);
         imageView = view.findViewById(R.id.play_image);
 
+
+
         for (int i = 0; i < 14; i++) {
             int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
             btn[i] = view.findViewById(id);
