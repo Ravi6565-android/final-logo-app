@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +13,6 @@ import com.example.logo_app.R;
 import com.example.logo_app.adapters.pager_view_adapter;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,27 +28,27 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo_play);
-        int pos=getIntent().getIntExtra("imgpos",0);
-        int asaetpos=getIntent().getIntExtra("asset",0);
+        int imgpos =getIntent().getIntExtra("imgpos",0);
+        int level =getIntent().getIntExtra("asset",0);
         String images[];
         ArrayList<String> image=new ArrayList<>();
         try {
 
-            if(asaetpos==0){
+            if(level ==0){
                 images=getAssets().list("level_1_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
-            if(asaetpos==1){
+            if(level ==1){
                 images=getAssets().list("level_2_us/");
                 image=new ArrayList<>(Arrays.asList(images));
-            }if(asaetpos==2){
+            }if(level ==2){
                 images=getAssets().list("level_3_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
-            if(asaetpos==3){
+            if(level ==3){
                 images=getAssets().list("level_4_us/");
                 image=new ArrayList<>(Arrays.asList(images));
-            }if(asaetpos==4){
+            }if(level ==4){
                 images=getAssets().list("level_5_us/");
                 image=new ArrayList<>(Arrays.asList(images));
             }
@@ -60,10 +57,11 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
             throw new RuntimeException(e);
         }
 
-        String s = getIntent().getStringExtra("list");
+      //  String s = getIntent().getStringExtra("list");
 
         viewPager=findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,pos,asaetpos,s,image);
+        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this, imgpos, level,image,viewPager);
+        viewPager.setCurrentItem(imgpos);
         viewPager.setAdapter(pagerAdapter);
 
 
