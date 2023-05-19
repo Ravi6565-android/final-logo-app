@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -23,19 +24,22 @@ import java.util.Random;
 
 public class pager_view_adapter extends PagerAdapter implements View.OnClickListener {
 
-Context context;
-    Button btn[]= new Button[14];
-int imgpos,level;
+    Context context;
+    Button btn[] = new Button[14];
+    int imgpos, level;
     ViewPager viewPager;
     ArrayList<String> image;
     String s;
+    String[] split;
     ImageView imageView;
+    LinearLayout layout;
+
     public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image, ViewPager viewPager) {
-    this.level=level;
-    this.imgpos=imgpos;
-    this.context=context;
-    this.image=image;
-    this.viewPager=viewPager;
+        this.level = level;
+        this.imgpos = imgpos;
+        this.context = context;
+        this.image = image;
+        this.viewPager = viewPager;
 
     }
 
@@ -47,19 +51,19 @@ int imgpos,level;
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view==object;
+        return view == object;
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view= LayoutInflater.from(context).inflate(R.layout.logo_play_item,container,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.logo_play_item, container, false);
+        layout = view.findViewById(R.id.linearplay);
+        imageView = view.findViewById(R.id.play_image);
 
-        imageView=view.findViewById(R.id.play_image);
-
-        for(int i=0;i<14;i++){
-            int id=context.getResources().getIdentifier("btn"+i,"id",context.getPackageName());
-            btn[i]=view.findViewById(id);
+        for (int i = 0; i < 14; i++) {
+            int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
+            btn[i] = view.findViewById(id);
         }
         try {
             charmaker(position);
@@ -67,6 +71,17 @@ int imgpos,level;
             throw new RuntimeException(e);
         }
         imageset(position);
+        Button[] ans = new Button[split[0].length()];
+        System.out.println("s===="+split[0].length());
+        for (int i = 0; i < split[0].length(); i++) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(5, 5, 5, 5);
+            layoutParams.weight = 1;
+            ans[i]= new Button(context);
+            ans[i].setLayoutParams(layoutParams);
+            ans[i].setBackgroundResource(R.color.purple_200);
+            layout.addView(ans[i]);
+        }
 
 
         container.addView(view);
@@ -92,72 +107,76 @@ int imgpos,level;
             }
         });
         return view;
-       // return super.instantiateItem(container, position);
+        // return super.instantiateItem(container, position);
 
 
     }
+
     public void charmaker(int pos) throws IOException {
-        ArrayList<Character> arrayList= new ArrayList<>();
-        if(level ==0){
-            s= image.get(pos);
+        ArrayList<Character> arrayList = new ArrayList<>();
+        if (level == 0) {
+            s = image.get(pos);
         }
-        if(level ==1){
-            s= image.get(pos);
-        }if(level ==2){
-            s= image.get(pos);
+        if (level == 1) {
+            s = image.get(pos);
         }
-        if(level ==3){
-             s= image.get(pos);
-        }if(level ==4){
-            s= image.get(pos);
+        if (level == 2) {
+            s = image.get(pos);
         }
-        String[] split= s.split("\\.");
-        System.out.println("slit name :"+split[0]);
-        char ans[]= new char[100];
-        ans=split[0].toCharArray();
+        if (level == 3) {
+            s = image.get(pos);
+        }
+        if (level == 4) {
+            s = image.get(pos);
+        }
+        split = s.split("\\.");
+        System.out.println("slit name :" + split[0]);
+        char ans[] = new char[100];
+        ans = split[0].toCharArray();
 
         for (int i = 0; i < ans.length; i++) {
             arrayList.add(ans[i]);
-            System.out.println("ans=="+ans[i]);
+            System.out.println("ans==" + ans[i]);
         }
-        for (int i=ans.length;i<14;i++){
+        for (int i = ans.length; i < 14; i++) {
 
-            char rand= (char) (new Random().nextInt('z'-'a')+'a');
+            char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
             arrayList.add(rand);
-            System.out.println("random=="+arrayList.get(i));
+            System.out.println("random==" + arrayList.get(i));
 
         }
-        System.out.println("===="+s);
+        System.out.println("====" + s);
         Collections.shuffle(arrayList);
         for (int i = 0; i < btn.length; i++) {
             btn[i].setOnClickListener(this);
-            btn[i].setText(""+arrayList.get(i));
+            btn[i].setText("" + arrayList.get(i));
         }
 
     }
-    public void imageset(int imgpos){
 
-        InputStream stream=null;
+    public void imageset(int imgpos) {
+
+        InputStream stream = null;
         try {
-            if(level==0){
-                stream=context.getAssets().open("level_1_us/"+s);
+            if (level == 0) {
+                stream = context.getAssets().open("level_1_us/" + s);
             }
-            if(level==1){
-                stream=context.getAssets().open("level_2_us/"+s);
+            if (level == 1) {
+                stream = context.getAssets().open("level_2_us/" + s);
             }
-            if(level==2){
-                stream=context.getAssets().open("level_3_us/"+s);
+            if (level == 2) {
+                stream = context.getAssets().open("level_3_us/" + s);
             }
-            if(level==3){
-                stream=context.getAssets().open("level_4_us/"+s);
+            if (level == 3) {
+                stream = context.getAssets().open("level_4_us/" + s);
             }
-            if(level==4){
-                stream=context.getAssets().open("level_5_us/"+s);
+            if (level == 4) {
+                stream = context.getAssets().open("level_5_us/" + s);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Drawable drawable=Drawable.createFromStream(stream,null);
+        Drawable drawable = Drawable.createFromStream(stream, null);
         imageView.setImageDrawable(drawable);
     }
 
