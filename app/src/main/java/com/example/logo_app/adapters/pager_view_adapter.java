@@ -2,6 +2,7 @@ package com.example.logo_app.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-public class pager_view_adapter extends PagerAdapter implements View.OnClickListener {
+public class pager_view_adapter extends PagerAdapter  {
 
     Context context;
-    Button btn[] = new Button[14];
+    Button btn[] = new Button[14],btnans[];
+
     int imgpos, level;
     ViewPager viewPager;
     ArrayList<String> image;
@@ -33,7 +35,9 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
     String[] split;
     ImageView imageView;
     LinearLayout layout;
-    Button[] ans;
+    int cnt=1;
+    private int counter=1;
+    private int page=1;
 
     public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image, ViewPager viewPager) {
         this.level = level;
@@ -62,7 +66,7 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         layout = view.findViewById(R.id.linearplay);
         imageView = view.findViewById(R.id.play_image);
 
-
+        Log.d("TTT", "Instanciate Called=="+(counter++)+"\t Page Position="+position);
 
         for (int i = 0; i < 14; i++) {
             int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
@@ -74,20 +78,13 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
             throw new RuntimeException(e);
         }
         imageset(position);
-        Button[] ans = new Button[split[0].length()];
-        System.out.println("s===="+split[0].length());
-        for (int i = 0; i < split[0].length(); i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(5, 5, 5, 5);
-            layoutParams.weight = 1;
-            ans[i]= new Button(context);
-            ans[i].setLayoutParams(layoutParams);
-            ans[i].setBackgroundResource(R.color.purple_200);
-            layout.addView(ans[i]);
-        }
 
 
-        container.addView(view);
+
+
+
+
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -97,11 +94,14 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
             @Override
             public void onPageSelected(int position) {
                 try {
+                    Log.d("TTT", "On Page Selectec Called=="+(page++)+"\t Page Position="+position);
                     charmaker(position);
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 imageset(position);
+                //button_thing();
             }
 
             @Override
@@ -109,6 +109,7 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
 
             }
         });
+        container.addView(view);
         return view;
         // return super.instantiateItem(container, position);
 
@@ -148,17 +149,58 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
             System.out.println("random==" + arrayList.get(i));
 
         }
+
+
         System.out.println("====" + s);
         Collections.shuffle(arrayList);
         for (int i = 0; i < btn.length; i++) {
-            btn[i].setOnClickListener(this);
-            btn[i].setText("" + arrayList.get(i));
+            btn[i].setText(""+arrayList.get(i));
         }
 
+
+
+
+    }
+    public void button_thing(){
+
+        Button[] ansbtn = new Button[split[0].length()];
+
+            layout.removeAllViews();
+
+        System.out.println("s===="+split[0].length());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(5, 5, 5, 5);
+        layoutParams.weight = 1;
+
+
+        for (int i = 0; i < split[0].length(); i++) {
+            ansbtn[i]= new Button(context);
+            ansbtn[i].setLayoutParams(layoutParams);
+            ansbtn[i].setBackgroundResource(R.color.purple_200);
+            layout.addView(ansbtn[i]);
+        }
+        for (int i = 0; i < btn.length; i++) {
+            btn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int j = 0; j < btn.length; j++) {
+                        if(v.getId()==btn[j].getId()){
+                            ansbtn[cnt].setText(btn[j].getText().toString());
+                            cnt++;
+
+                        }
+                    }
+
+                }
+            });
+
+        }
+
+        split[0]="";
     }
 
     public void imageset(int imgpos) {
-
+        Log.d("TTT", "Function Called=="+(cnt++));
         InputStream stream = null;
         try {
             if (level == 0) {
@@ -181,6 +223,40 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         }
         Drawable drawable = Drawable.createFromStream(stream, null);
         imageView.setImageDrawable(drawable);
+        Button[] ansbtn = new Button[split[0].length()];
+
+        layout.removeAllViews();
+
+        System.out.println("s===="+split[0].length());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(5, 5, 5, 5);
+        layoutParams.weight = 1;
+
+
+        for (int i = 0; i < split[0].length(); i++) {
+            ansbtn[i]= new Button(context);
+            ansbtn[i].setLayoutParams(layoutParams);
+            ansbtn[i].setBackgroundResource(R.color.purple_200);
+            layout.addView(ansbtn[i]);
+        }
+        for (int i = 0; i < btn.length; i++) {
+            btn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int j = 0; j < btn.length; j++) {
+                        if(v.getId()==btn[j].getId()){
+                            ansbtn[cnt].setText(btn[j].getText().toString());
+                            cnt++;
+
+                        }
+                    }
+
+                }
+            });
+
+        }
+
+        split[0]="";
     }
 
 
@@ -189,10 +265,5 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         container.removeView((View) object);
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view.getId()==btn[0].getId()){
-            ans[0].setText(btn[0].getText().toString());
-        }
-    }
+
 }
