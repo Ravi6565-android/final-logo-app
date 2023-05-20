@@ -33,6 +33,7 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
     String[] split;
     ImageView imageView;
     LinearLayout layout;
+    Button[] ans;
 
     public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image, ViewPager viewPager) {
         this.level = level;
@@ -190,6 +191,8 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-
+        if(view.getId()==btn[0].getId()){
+            ans[0].setText(btn[0].getText().toString());
+        }
     }
 }
