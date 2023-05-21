@@ -7,11 +7,11 @@
     android:orientation="vertical"
     tools:context=".activitys.logo_play_activity">
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/viewPager"
-        ></androidx.viewpager.widget.ViewPager>
+        ></androidx.viewpager2.widget.ViewPager2>
 
 
 

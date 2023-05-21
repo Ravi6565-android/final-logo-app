@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.logo_app.R;
@@ -18,11 +18,10 @@ import com.example.logo_app.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-public class pager_view_adapter extends PagerAdapter implements View.OnClickListener {
+public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.viewholder> {
 
     Context context;
     Button btn[] = new Button[14];
@@ -35,7 +34,7 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
     LinearLayout layout;
     Button[] ans;
 
-    public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image, ViewPager viewPager) {
+    public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image) {
         this.level = level;
         this.imgpos = imgpos;
         this.context = context;
@@ -45,92 +44,177 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
     }
 
 
-    @Override
-    public int getCount() {
-        return image.size();
-    }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
-    }
+
+
+
+//    @NonNull
+//    @Override
+//    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+//        View view = LayoutInflater.from(context).inflate(R.layout.logo_play_item, container, false);
+//        layout = view.findViewById(R.id.linearplay);
+//        imageView = view.findViewById(R.id.play_image);
+//
+//
+//
+//        for (int i = 0; i < 14; i++) {
+//            int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
+//            btn[i] = view.findViewById(id);
+//        }
+//        try {
+//            charmaker(position);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        imageset(position);
+//        Button[] ans = new Button[split[0].length()];
+//        System.out.println("s===="+split[0].length());
+//        for (int i = 0; i < split[0].length(); i++) {
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            layoutParams.setMargins(5, 5, 5, 5);
+//            layoutParams.weight = 1;
+//            ans[i]= new Button(context);
+//            ans[i].setLayoutParams(layoutParams);
+//            ans[i].setBackgroundResource(R.color.purple_200);
+//            layout.addView(ans[i]);
+//        }
+//
+//
+//        container.addView(view);
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                try {
+//                    charmaker(position);
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                imageset(position);
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
+//        return view;
+//        // return super.instantiateItem(container, position);
+//
+//
+//    }
+
+//    public void charmaker(int pos) throws IOException {
+//        ArrayList<Character> arrayList = new ArrayList<>();
+//        if (level == 0) {
+//            s = image.get(pos);
+//        }
+//        if (level == 1) {
+//            s = image.get(pos);
+//        }
+//        if (level == 2) {
+//            s = image.get(pos);
+//        }
+//        if (level == 3) {
+//            s = image.get(pos);
+//        }
+//        if (level == 4) {
+//            s = image.get(pos);
+//        }
+//        split = s.split("\\.");
+//        System.out.println("slit name :" + split[0]);
+//        char ans[] = new char[100];
+//        ans = split[0].toCharArray();
+//
+//        for (int i = 0; i < ans.length; i++) {
+//            arrayList.add(ans[i]);
+//            System.out.println("ans==" + ans[i]);
+//        }
+//        for (int i = ans.length; i < 14; i++) {
+//
+//            char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
+//            arrayList.add(rand);
+//            System.out.println("random==" + arrayList.get(i));
+//
+//        }
+//        System.out.println("====" + s);
+//        Collections.shuffle(arrayList);
+//        for (int i = 0; i < btn.length; i++) {
+//            btn[i].setOnClickListener(this);
+//            btn[i].setText("" + arrayList.get(i));
+//        }
+//
+//    }
+//
+//    public void imageset(int imgpos) {
+//
+//        InputStream stream = null;
+//        try {
+//            if (level == 0) {
+//                stream = context.getAssets().open("level_1_us/" + s);
+//            }
+//            if (level == 1) {
+//                stream = context.getAssets().open("level_2_us/" + s);
+//            }
+//            if (level == 2) {
+//                stream = context.getAssets().open("level_3_us/" + s);
+//            }
+//            if (level == 3) {
+//                stream = context.getAssets().open("level_4_us/" + s);
+//            }
+//            if (level == 4) {
+//                stream = context.getAssets().open("level_5_us/" + s);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        Drawable drawable = Drawable.createFromStream(stream, null);
+//        imageView.setImageDrawable(drawable);
+//    }
+
+
+
+
+//    @Override
+//    public void onClick(View view) {
+//
+//        }
+//    }
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.logo_play_item, container, false);
-        layout = view.findViewById(R.id.linearplay);
-        imageView = view.findViewById(R.id.play_image);
+    public pager_view_adapter.viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(context).inflate(R.layout.logo_play_item, parent, false);
 
 
 
-        for (int i = 0; i < 14; i++) {
-            int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
-            btn[i] = view.findViewById(id);
-        }
-        try {
-            charmaker(position);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        imageset(position);
-        Button[] ans = new Button[split[0].length()];
-        System.out.println("s===="+split[0].length());
-        for (int i = 0; i < split[0].length(); i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(5, 5, 5, 5);
-            layoutParams.weight = 1;
-            ans[i]= new Button(context);
-            ans[i].setLayoutParams(layoutParams);
-            ans[i].setBackgroundResource(R.color.purple_200);
-            layout.addView(ans[i]);
-        }
 
 
-        container.addView(view);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                try {
-                    charmaker(position);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                imageset(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        return view;
-        // return super.instantiateItem(container, position);
-
-
+                viewholder viewholder= new viewholder(view);
+        return viewholder;
     }
 
-    public void charmaker(int pos) throws IOException {
+    @Override
+    public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
         ArrayList<Character> arrayList = new ArrayList<>();
         if (level == 0) {
-            s = image.get(pos);
+            s = image.get(position);
         }
         if (level == 1) {
-            s = image.get(pos);
+            s = image.get(position);
         }
         if (level == 2) {
-            s = image.get(pos);
+            s = image.get(position);
         }
         if (level == 3) {
-            s = image.get(pos);
+            s = image.get(position);
         }
         if (level == 4) {
-            s = image.get(pos);
+            s = image.get(position);
         }
         split = s.split("\\.");
         System.out.println("slit name :" + split[0]);
@@ -150,14 +234,29 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         }
         System.out.println("====" + s);
         Collections.shuffle(arrayList);
-        for (int i = 0; i < btn.length; i++) {
-            btn[i].setOnClickListener(this);
-            btn[i].setText("" + arrayList.get(i));
+        Button[] ansbtn = new Button[split[0].length()];
+
+        for (int i = 0; i < split[0].length(); i++) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(5, 5, 5, 5);
+            layoutParams.weight = 1;
+            ansbtn[i]= new Button(context);
+            ansbtn[i].setLayoutParams(layoutParams);
+            ansbtn[i].setBackgroundResource(R.color.purple_200);
+            layout.addView(ansbtn[i]);
         }
 
-    }
 
-    public void imageset(int imgpos) {
+        for (int i = 0; i < btn.length; i++) {
+            btn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+             btn[i].setText("" + arrayList.get(i));
+        }
+
 
         InputStream stream = null;
         try {
@@ -181,18 +280,25 @@ public class pager_view_adapter extends PagerAdapter implements View.OnClickList
         }
         Drawable drawable = Drawable.createFromStream(stream, null);
         imageView.setImageDrawable(drawable);
-    }
+        System.out.println("s===="+split[0].length());
 
-
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View) object);
     }
 
     @Override
-    public void onClick(View view) {
-        if(view.getId()==btn[0].getId()){
-            ans[0].setText(btn[0].getText().toString());
+    public int getItemCount() {
+        return image.size();
+    }
+
+    public class viewholder extends RecyclerView.ViewHolder {
+        public viewholder(@NonNull View itemView) {
+            super(itemView);
+            layout = itemView.findViewById(R.id.linearplay);
+            imageView = itemView.findViewById(R.id.play_image);
+            for (int i = 0; i < 14; i++) {
+                int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
+                btn[i] = itemView.findViewById(id);
+            }
+
         }
     }
 }

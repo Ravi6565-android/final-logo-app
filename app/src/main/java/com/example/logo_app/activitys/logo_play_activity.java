@@ -1,8 +1,10 @@
 package com.example.logo_app.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
 
     ImageView imageView;
     Button btn[]= new Button[14];
-    ViewPager  viewPager;
+    ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,8 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
         }
 
       //  String s = getIntent().getStringExtra("list");
-
         viewPager=findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter= new pager_view_adapter(logo_play_activity.this, imgpos, level,image,viewPager);
+        pager_view_adapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,imgpos,level,image);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(imgpos);
 
