@@ -18,6 +18,7 @@ import com.example.logo_app.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -29,8 +30,8 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
     ArrayList<String> image;
     String s;
     String[] split;
+    int cnt=0,pos=0;
 
-    private int cnt = 0;
 
     public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image) {
         this.level = level;
@@ -158,6 +159,8 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
     @Override
     public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
         ArrayList<Character> arrayList = new ArrayList<>();
+        System.out.println("image===="+pos++);
+
         if (level == 0) {
             s = image.get(position);
         }
@@ -196,29 +199,24 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         Drawable drawable = Drawable.createFromStream(stream, null);
         holder.imageView.setImageDrawable(drawable);
         split = s.split("\\.");
-        System.out.println("slit name :" + split[0]);
         char ans[] = new char[100];
         ans = split[0].toCharArray();
 
         for (int i = 0; i < ans.length; i++) {
             arrayList.add(ans[i]);
-            System.out.println("ans==" + ans[i]);
             holder.btn[i].setText("" + arrayList.get(i));
         }
         for (int i = ans.length; i < 14; i++) {
 
             char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
             arrayList.add(rand);
+            Collections.shuffle(arrayList);
             holder.btn[i].setText("" + arrayList.get(i));
-            System.out.println("random==" + arrayList.get(i));
 
         }
-        System.out.println("====" + s);
-        Collections.shuffle(arrayList);
-        Collections.shuffle(arrayList);
         Button[] ansbtn = new Button[split[0].length()];
         holder.layout.removeAllViews();
-        cnt=0;
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(5, 5, 5, 5);
         layoutParams.weight = 1;
@@ -231,28 +229,32 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         }
 
 
-        for (int i = 0; i < holder.btn.length; i++) {
+        for ( int i = 0; i < holder.btn.length; i++) {
             holder.btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for (int j = 0; j < holder.btn.length; j++) {
+                        if(cnt<ansbtn.length) {
+                            for (int j = 0; j < holder.btn.length; j++) {
+
                         if (view.getId()==holder.btn[j].getId()){
-                            if(cnt<ansbtn.length) {
                                 ansbtn[cnt].setText("" + holder.btn[j].getText().toString());
                                 cnt++;
+                                System.out.println("cnt======="+cnt);
                             }
+                            }
+
                         }
                     }
-                }
 
             });
-            for (int j = 0; j < ansbtn.length; j++) {
-                if(!ansbtn[j].getText().toString().equals("")){
-                    cnt=0;
 
-                }
+        }
+        for (int j = 0; j < ansbtn.length; j++) {
+            if(!ansbtn[j].getText().toString().equals("")){
+                cnt=0;
 
             }
+
         }
 
 
