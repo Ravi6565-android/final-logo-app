@@ -144,38 +144,6 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 //
 //    }
 //
-//    public void imageset(int imgpos) {
-//
-//        InputStream stream = null;
-//        try {
-//            if (level == 0) {
-//                stream = context.getAssets().open("level_1_us/" + s);
-//            }
-//            if (level == 1) {
-//                stream = context.getAssets().open("level_2_us/" + s);
-//            }
-//            if (level == 2) {
-//                stream = context.getAssets().open("level_3_us/" + s);
-//            }
-//            if (level == 3) {
-//                stream = context.getAssets().open("level_4_us/" + s);
-//            }
-//            if (level == 4) {
-//                stream = context.getAssets().open("level_5_us/" + s);
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Drawable drawable = Drawable.createFromStream(stream, null);
-//        imageView.setImageDrawable(drawable);
-//    }
-
-
-//    @Override
-//    public void onClick(View view) {
-//
-//        }
-//    }
 
     @NonNull
     @Override
@@ -247,17 +215,19 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         }
         System.out.println("====" + s);
         Collections.shuffle(arrayList);
-
-
+        Collections.shuffle(arrayList);
+        Button[] ansbtn = new Button[split[0].length()];
+        holder.layout.removeAllViews();
+        cnt=0;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(5, 5, 5, 5);
         layoutParams.weight = 1;
         for (int i = 0; i < split[0].length(); i++) {
 
-           holder.ansbtn[i] = new Button(context);
-            holder.ansbtn[i].setLayoutParams(layoutParams);
-            holder.ansbtn[i].setBackgroundResource(R.color.purple_200);
-            holder.layout.addView(holder.ansbtn[i]);
+            ansbtn[i] = new Button(context);
+            ansbtn[i].setLayoutParams(layoutParams);
+            ansbtn[i].setBackgroundResource(R.color.purple_200);
+            holder.layout.addView(ansbtn[i]);
         }
 
 
@@ -265,47 +235,53 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             holder.btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    for (int k = 0; k < holder.btn.length; k++) {
-                        holder.ansbtn[cnt].setText("" + holder.btn[view.getId()].getText().toString());
-                        cnt++;
+                    for (int j = 0; j < holder.btn.length; j++) {
+                        if (view.getId()==holder.btn[j].getId()){
+                            if(cnt<ansbtn.length) {
+                                ansbtn[cnt].setText("" + holder.btn[j].getText().toString());
+                                cnt++;
+                            }
+                        }
                     }
                 }
 
-                    });
+            });
+            for (int j = 0; j < ansbtn.length; j++) {
+                if(!ansbtn[j].getText().toString().equals("")){
+                    cnt=0;
 
                 }
 
+            }
+        }
 
 
-
-        System.out.println("s===="+split[0].
+        System.out.println("s====" + split[0].
 
                 length());
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return image.size();
+    }
+
+    public class viewholder extends RecyclerView.ViewHolder {
+        Button btn[] = new Button[14];
+        ImageView imageView;
+        LinearLayout layout;
+        Button[] ans;
+
+        public viewholder(@NonNull View itemView) {
+            super(itemView);
+            layout = itemView.findViewById(R.id.linearplay);
+            imageView = itemView.findViewById(R.id.play_image);
+            for (int i = 0; i < 14; i++) {
+                int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
+                btn[i] = itemView.findViewById(id);
             }
 
-            @Override
-            public int getItemCount () {
-                return image.size();
-            }
-
-            public class viewholder extends RecyclerView.ViewHolder {
-                Button btn[] = new Button[14];
-                ImageView imageView;
-                LinearLayout layout;
-                Button[] ans;
-                Button[] ansbtn = new Button[split[0].length()];
-
-                public viewholder(@NonNull View itemView) {
-                    super(itemView);
-                    layout = itemView.findViewById(R.id.linearplay);
-                    imageView = itemView.findViewById(R.id.play_image);
-                    for (int i = 0; i < 14; i++) {
-                        int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
-                        btn[i] = itemView.findViewById(id);
-                    }
-
-                }
-            }
         }
+    }
+}
