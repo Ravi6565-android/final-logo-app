@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +27,12 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
     Context context;
     int imgpos, level;
    ViewPager2 viewPager;
+   String finalans;
     ArrayList<String> image;
     String s;
+    StringBuffer buffer= new StringBuffer();
     String[] split;
+    ArrayList<Character> chackans= new ArrayList<>();
     int cnt = 0, pos = 0;
 
 
@@ -62,7 +66,7 @@ charmaker(imgpos,viewholder);
 
     @Override
     public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
-
+        charmaker(position,holder);
     }
 
     void charmaker(int position, viewholder viewholder){
@@ -108,12 +112,13 @@ charmaker(imgpos,viewholder);
         System.out.println("image name=====" + s);
         viewholder.imageView.setImageDrawable(drawable);
         split = s.split("\\.");
+        finalans=split[0];
         char ans[] = new char[100];
         ans = split[0].toCharArray();
 
         for (int i = 0; i < ans.length; i++) {
             arrayList.add(ans[i]);
-            viewholder.btn[i].setVisibility(View.VISIBLE);
+          //  viewholder.btn[i].setVisibility(View.VISIBLE);
             viewholder.btn[i].setText("" + arrayList.get(i));
         }
         for (int i = ans.length; i < 14; i++) {
@@ -122,7 +127,7 @@ charmaker(imgpos,viewholder);
             arrayList.add(rand);
             System.out.println("randm======" + rand);
             Collections.shuffle(arrayList);
-            viewholder.btn[i].setVisibility(View.VISIBLE);
+        //    viewholder.btn[i].setVisibility(View.VISIBLE);
             viewholder.btn[i].setText("" + arrayList.get(i));
 
         }
@@ -152,9 +157,12 @@ charmaker(imgpos,viewholder);
 
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
-                                cnt++;
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
+                                buffer.append(ansbtn[j].getText().toString());
                                 System.out.println("cnt=======" + cnt);
+                                System.out.println("buffer======"+buffer);
+                                cnt++;
+                                chackwin();
                             }
                         }
 
@@ -165,6 +173,15 @@ charmaker(imgpos,viewholder);
 
         }
     }
+
+    private void chackwin() {
+        if(finalans.equalsIgnoreCase(String.valueOf(buffer))){
+            Toast.makeText(context, "Win this level", Toast.LENGTH_LONG).show();
+            buffer.delete(0,buffer.length());
+
+        }
+    }
+
 
     @Override
     public int getItemCount() {
