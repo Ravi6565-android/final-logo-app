@@ -69,7 +69,8 @@ charmaker(imgpos,viewholder);
         charmaker(position,holder);
     }
 
-    void charmaker(int position, viewholder viewholder){
+    void charmaker(int position, viewholder viewholder)
+    {
         ArrayList<Character> arrayList = new ArrayList<>();
         System.out.println("image====" + pos++);
 
@@ -152,9 +153,9 @@ charmaker(imgpos,viewholder);
             viewholder.btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (cnt < ansbtn.length) {
-                        for (int j = 0; j < viewholder.btn.length; j++) {
 
+                        for (int j = 0; j < viewholder.btn.length; j++) {
+                            if (cnt < ansbtn.length) {
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
