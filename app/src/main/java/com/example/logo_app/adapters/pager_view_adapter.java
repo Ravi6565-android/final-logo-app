@@ -47,7 +47,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
 
         viewholder viewholder = new viewholder(view);
-
+charmaker(imgpos,viewholder);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -62,7 +62,6 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
     @Override
     public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
-       charmaker(position,holder);
 
     }
 
@@ -114,6 +113,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
         for (int i = 0; i < ans.length; i++) {
             arrayList.add(ans[i]);
+            viewholder.btn[i].setVisibility(View.VISIBLE);
             viewholder.btn[i].setText("" + arrayList.get(i));
         }
         for (int i = ans.length; i < 14; i++) {
@@ -122,6 +122,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             arrayList.add(rand);
             System.out.println("randm======" + rand);
             Collections.shuffle(arrayList);
+            viewholder.btn[i].setVisibility(View.VISIBLE);
             viewholder.btn[i].setText("" + arrayList.get(i));
 
         }
@@ -152,6 +153,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 cnt++;
+                                viewholder.btn[j].setVisibility(View.INVISIBLE);
                                 System.out.println("cnt=======" + cnt);
                             }
                         }
