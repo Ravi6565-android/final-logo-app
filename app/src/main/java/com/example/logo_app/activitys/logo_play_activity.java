@@ -61,7 +61,7 @@ public class logo_play_activity extends AppCompatActivity implements View.OnClic
 
       //  String s = getIntent().getStringExtra("list");
         viewPager=findViewById(R.id.viewPager);
-        pager_view_adapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,imgpos,level,image);
+        pager_view_adapter pagerAdapter= new pager_view_adapter(logo_play_activity.this,imgpos,level,image,viewPager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(imgpos);
 

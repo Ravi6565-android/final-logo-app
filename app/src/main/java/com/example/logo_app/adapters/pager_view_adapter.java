@@ -11,14 +11,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.logo_app.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -26,14 +25,14 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
     Context context;
     int imgpos, level;
-    ViewPager viewPager;
+   ViewPager2 viewPager;
     ArrayList<String> image;
     String s;
     String[] split;
-    int cnt=0,pos=0;
+    int cnt = 0, pos = 0;
 
 
-    public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image) {
+    public pager_view_adapter(Context context, int imgpos, int level, ArrayList<String> image, ViewPager2 viewPager) {
         this.level = level;
         this.imgpos = imgpos;
         this.context = context;
@@ -41,111 +40,6 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         this.viewPager = viewPager;
 
     }
-
-
-//    @NonNull
-//    @Override
-//    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-//        View view = LayoutInflater.from(context).inflate(R.layout.logo_play_item, container, false);
-//        layout = view.findViewById(R.id.linearplay);
-//        imageView = view.findViewById(R.id.play_image);
-//
-//
-//
-//        for (int i = 0; i < 14; i++) {
-//            int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
-//            btn[i] = view.findViewById(id);
-//        }
-//        try {
-//            charmaker(position);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        imageset(position);
-//        Button[] ans = new Button[split[0].length()];
-//        System.out.println("s===="+split[0].length());
-//        for (int i = 0; i < split[0].length(); i++) {
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            layoutParams.setMargins(5, 5, 5, 5);
-//            layoutParams.weight = 1;
-//            ans[i]= new Button(context);
-//            ans[i].setLayoutParams(layoutParams);
-//            ans[i].setBackgroundResource(R.color.purple_200);
-//            layout.addView(ans[i]);
-//        }
-//
-//
-//        container.addView(view);
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                try {
-//                    charmaker(position);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                imageset(position);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-//        return view;
-//        // return super.instantiateItem(container, position);
-//
-//
-//    }
-
-//    public void charmaker(int pos) throws IOException {
-//        ArrayList<Character> arrayList = new ArrayList<>();
-//        if (level == 0) {
-//            s = image.get(pos);
-//        }
-//        if (level == 1) {
-//            s = image.get(pos);
-//        }
-//        if (level == 2) {
-//            s = image.get(pos);
-//        }
-//        if (level == 3) {
-//            s = image.get(pos);
-//        }
-//        if (level == 4) {
-//            s = image.get(pos);
-//        }
-//        split = s.split("\\.");
-//        System.out.println("slit name :" + split[0]);
-//        char ans[] = new char[100];
-//        ans = split[0].toCharArray();
-//
-//        for (int i = 0; i < ans.length; i++) {
-//            arrayList.add(ans[i]);
-//            System.out.println("ans==" + ans[i]);
-//        }
-//        for (int i = ans.length; i < 14; i++) {
-//
-//            char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
-//            arrayList.add(rand);
-//            System.out.println("random==" + arrayList.get(i));
-//
-//        }
-//        System.out.println("====" + s);
-//        Collections.shuffle(arrayList);
-//        for (int i = 0; i < btn.length; i++) {
-//            btn[i].setOnClickListener(this);
-//            btn[i].setText("" + arrayList.get(i));
-//        }
-//
-//    }
-//
-
     @NonNull
     @Override
     public pager_view_adapter.viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -153,13 +47,28 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
 
         viewholder viewholder = new viewholder(view);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                cnt=0;
+                charmaker(position,viewholder);
+
+            }
+        });
         return viewholder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
+       charmaker(position,holder);
+
+    }
+
+    void charmaker(int position, viewholder viewholder){
         ArrayList<Character> arrayList = new ArrayList<>();
-        System.out.println("image===="+pos++);
+        System.out.println("image====" + pos++);
 
         if (level == 0) {
             s = image.get(position);
@@ -197,25 +106,29 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             throw new RuntimeException(e);
         }
         Drawable drawable = Drawable.createFromStream(stream, null);
-        holder.imageView.setImageDrawable(drawable);
+        System.out.println("image name=====" + s);
+        viewholder.imageView.setImageDrawable(drawable);
         split = s.split("\\.");
         char ans[] = new char[100];
         ans = split[0].toCharArray();
 
         for (int i = 0; i < ans.length; i++) {
             arrayList.add(ans[i]);
-            holder.btn[i].setText("" + arrayList.get(i));
+            viewholder.btn[i].setText("" + arrayList.get(i));
         }
         for (int i = ans.length; i < 14; i++) {
 
             char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
             arrayList.add(rand);
+            System.out.println("randm======" + rand);
             Collections.shuffle(arrayList);
-            holder.btn[i].setText("" + arrayList.get(i));
+            viewholder.btn[i].setText("" + arrayList.get(i));
 
         }
         Button[] ansbtn = new Button[split[0].length()];
-        holder.layout.removeAllViews();
+        cnt = 0;
+        System.out.println("cnt====" + cnt);
+        viewholder.layout.removeAllViews();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(5, 5, 5, 5);
@@ -225,43 +138,30 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             ansbtn[i] = new Button(context);
             ansbtn[i].setLayoutParams(layoutParams);
             ansbtn[i].setBackgroundResource(R.color.purple_200);
-            holder.layout.addView(ansbtn[i]);
+            viewholder.layout.addView(ansbtn[i]);
         }
 
 
-        for ( int i = 0; i < holder.btn.length; i++) {
-            holder.btn[i].setOnClickListener(new View.OnClickListener() {
+        for (int i = 0; i < viewholder.btn.length; i++) {
+            viewholder.btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        if(cnt<ansbtn.length) {
-                            for (int j = 0; j < holder.btn.length; j++) {
+                    if (cnt < ansbtn.length) {
+                        for (int j = 0; j < viewholder.btn.length; j++) {
 
-                        if (view.getId()==holder.btn[j].getId()){
-                                ansbtn[cnt].setText("" + holder.btn[j].getText().toString());
+                            if (view.getId() == viewholder.btn[j].getId()) {
+                                ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 cnt++;
-                                System.out.println("cnt======="+cnt);
+                                System.out.println("cnt=======" + cnt);
                             }
-                            }
-
                         }
+
                     }
+                }
 
             });
 
         }
-        for (int j = 0; j < ansbtn.length; j++) {
-            if(!ansbtn[j].getText().toString().equals("")){
-                cnt=0;
-
-            }
-
-        }
-
-
-        System.out.println("s====" + split[0].
-
-                length());
-
     }
 
     @Override
