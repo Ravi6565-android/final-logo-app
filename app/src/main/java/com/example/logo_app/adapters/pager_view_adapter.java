@@ -2,6 +2,7 @@ package com.example.logo_app.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
    String finalans;
     ArrayList<String> image;
     String s;
-    StringBuffer buffer= new StringBuffer();
+
     String[] split;
     ArrayList<Character> chackans= new ArrayList<>();
     int cnt = 0, pos = 0;
@@ -51,13 +52,15 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
 
         viewholder viewholder = new viewholder(view);
-charmaker(imgpos,viewholder);
+        charmaker(imgpos,viewholder);
+        Log.d("TTT", "onCreate: FirstPosition="+imgpos);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 cnt=0;
                 charmaker(position,viewholder);
+                Log.d("TTT", "onPageSelected: PagePosistion="+position);
 
             }
         });
@@ -67,12 +70,12 @@ charmaker(imgpos,viewholder);
     @Override
     public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
         charmaker(position,holder);
+        Log.d("TTT", "onBindViewHolder: BindingPosition="+position);
     }
 
     void charmaker(int position, viewholder viewholder)
     {
         ArrayList<Character> arrayList = new ArrayList<>();
-        System.out.println("image====" + pos++);
 
         if (level == 0) {
             s = image.get(position);
@@ -110,9 +113,9 @@ charmaker(imgpos,viewholder);
             throw new RuntimeException(e);
         }
         Drawable drawable = Drawable.createFromStream(stream, null);
-        System.out.println("image name=====" + s);
         viewholder.imageView.setImageDrawable(drawable);
         split = s.split("\\.");
+        Log.d("TTT", "charmaker: ImgName="+split[0]);
         finalans=split[0];
         char ans[] = new char[100];
         ans = split[0].toCharArray();
@@ -126,15 +129,13 @@ charmaker(imgpos,viewholder);
 
             char rand = (char) (new Random().nextInt('z' - 'a') + 'a');
             arrayList.add(rand);
-            System.out.println("randm======" + rand);
-            Collections.shuffle(arrayList);
+          //  Collections.shuffle(arrayList);
         //    viewholder.btn[i].setVisibility(View.VISIBLE);
             viewholder.btn[i].setText("" + arrayList.get(i));
 
         }
         Button[] ansbtn = new Button[split[0].length()];
         cnt = 0;
-        System.out.println("cnt====" + cnt);
         viewholder.layout.removeAllViews();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -147,7 +148,8 @@ charmaker(imgpos,viewholder);
             ansbtn[i].setBackgroundResource(R.color.purple_200);
             viewholder.layout.addView(ansbtn[i]);
         }
-
+        ArrayList<CharSequence> remove= new ArrayList<>();
+        StringBuffer buffer= new StringBuffer();
 
         for (int i = 0; i < viewholder.btn.length; i++) {
             viewholder.btn[i].setOnClickListener(new View.OnClickListener() {
@@ -159,11 +161,12 @@ charmaker(imgpos,viewholder);
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
-                                buffer.append(ansbtn[j].getText().toString());
+                                buffer.append(ansbtn[cnt].getText().toString());
+                                remove.add(ansbtn[cnt].getText());
                                 System.out.println("cnt=======" + cnt);
                                 System.out.println("buffer======"+buffer);
                                 cnt++;
-                                chackwin();
+                                chackwin(buffer);
                             }
                         }
 
@@ -173,12 +176,23 @@ charmaker(imgpos,viewholder);
             });
 
         }
+
+        // for remove char
+        viewholder.cnacel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
     }
 
-    private void chackwin() {
+    private void chackwin(StringBuffer buffer) {
         if(finalans.equalsIgnoreCase(String.valueOf(buffer))){
             Toast.makeText(context, "Win this level", Toast.LENGTH_LONG).show();
-            buffer.delete(0,buffer.length());
+            System.out.println("before buffer leanth=="+buffer.length());
+            buffer.delete(1,buffer.length());
+
+            System.out.println("buffer leanth=="+buffer.length());
+
 
         }
     }
@@ -194,11 +208,13 @@ charmaker(imgpos,viewholder);
         ImageView imageView;
         LinearLayout layout;
         Button[] ans;
+        Button cnacel;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
             layout = itemView.findViewById(R.id.linearplay);
             imageView = itemView.findViewById(R.id.play_image);
+            cnacel=itemView.findViewById(R.id.play_remove);
             for (int i = 0; i < 14; i++) {
                 int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
                 btn[i] = itemView.findViewById(id);
