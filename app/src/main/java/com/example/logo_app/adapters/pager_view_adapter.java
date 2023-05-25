@@ -75,6 +75,8 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
     void charmaker(int position, viewholder viewholder)
     {
         ArrayList<Character> arrayList = new ArrayList<>();
+        ArrayList<Integer> clickpos= new ArrayList();
+
 
         if (level == 0) {
             s = image.get(position);
@@ -147,7 +149,6 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             ansbtn[i].setBackgroundResource(R.color.purple_200);
             viewholder.layout.addView(ansbtn[i]);
         }
-        ArrayList<Integer> clickpos= new ArrayList<>();
         StringBuffer buffer= new StringBuffer();
 
         for (int i = 0; i < viewholder.btn.length; i++) {
@@ -159,11 +160,11 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
                             if (cnt < ansbtn.length) {
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 clickpos.add(j);
+                                System.out.println("clickpos----"+clickpos.get(cnt));
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
                                 buffer.append(ansbtn[cnt].getText().toString());
                                 System.out.println("cnt=======" + cnt);
-                                System.out.println("buffer======"+buffer);
                                 cnt++;
                                 chackwin(buffer);
                             }
@@ -181,11 +182,14 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             @Override
             public void onClick(View v) {
                 if(cnt!=0){
-                    ansbtn[cnt].setText("");
-                    int lll=clickpos.size();
-
-                    viewholder.btn[(clickpos.get(lll))].setVisibility(View.VISIBLE);
                     cnt--;
+                    ansbtn[cnt].setText("");
+                    System.out.println("cnt in cnacel=="+cnt);
+                    int kos=clickpos.get(cnt);
+                    System.out.println("clickpos===="+kos);
+                    viewholder.btn[kos].setVisibility(View.VISIBLE);
+                    clickpos.remove(cnt);
+                    buffer.deleteCharAt(cnt);
 
                 }
 
