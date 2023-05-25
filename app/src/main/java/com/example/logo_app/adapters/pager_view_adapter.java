@@ -160,11 +160,11 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
                             if (cnt < ansbtn.length) {
                             if (view.getId() == viewholder.btn[j].getId()) {
                                 clickpos.add(j);
-                                System.out.println("clickpos----"+clickpos.get(cnt));
+                              //  System.out.println("clickpos----"+clickpos.get(cnt));
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
                                 buffer.append(ansbtn[cnt].getText().toString());
-                                System.out.println("cnt=======" + cnt);
+                               // System.out.println("cnt=======" + cnt);
                                 cnt++;
                                 chackwin(buffer);
                             }
@@ -176,6 +176,22 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             });
 
         }
+        viewholder.clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cnt=0;
+                for (int i=0;i<viewholder.btn.length;i++){
+                    viewholder.btn[i].setVisibility(View.VISIBLE);
+                    if(i<ansbtn.length){
+                        ansbtn[i].setText("");
+                    }
+
+                }
+                clickpos.clear();
+                buffer.delete(0,buffer.length());
+
+            }
+        });
 
         // for remove char
         viewholder.cnacel.setOnClickListener(new View.OnClickListener() {
@@ -198,13 +214,12 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
     }
 
     private void chackwin(StringBuffer buffer) {
-        if(finalans.equalsIgnoreCase(String.valueOf(buffer))){
+        if(split[0].equalsIgnoreCase(buffer.toString())||buffer.toString()==finalans.toString()){
             Toast.makeText(context, "Win this level", Toast.LENGTH_LONG).show();
-            System.out.println("before buffer leanth=="+buffer.length());
-            buffer.delete(1,buffer.length());
-
-            System.out.println("buffer leanth=="+buffer.length());
-
+            System.out.println("check win buffer==="+buffer);
+            buffer.delete(0,buffer.length());
+        }else {
+            System.out.println("else check win buffer==="+buffer);
 
         }
     }
@@ -220,13 +235,14 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         ImageView imageView;
         LinearLayout layout;
         Button[] ans;
-        Button cnacel;
+        Button cnacel,clear;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
             layout = itemView.findViewById(R.id.linearplay);
             imageView = itemView.findViewById(R.id.play_image);
             cnacel=itemView.findViewById(R.id.play_remove);
+            clear=itemView.findViewById(R.id.play_clearall);
             for (int i = 0; i < 14; i++) {
                 int id = context.getResources().getIdentifier("btn" + i, "id", context.getPackageName());
                 btn[i] = itemView.findViewById(id);
