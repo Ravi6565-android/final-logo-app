@@ -20,7 +20,6 @@ import com.example.logo_app.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.viewholder> {
@@ -148,7 +147,7 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             ansbtn[i].setBackgroundResource(R.color.purple_200);
             viewholder.layout.addView(ansbtn[i]);
         }
-        ArrayList<CharSequence> remove= new ArrayList<>();
+        ArrayList<Integer> clickpos= new ArrayList<>();
         StringBuffer buffer= new StringBuffer();
 
         for (int i = 0; i < viewholder.btn.length; i++) {
@@ -159,10 +158,10 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
                         for (int j = 0; j < viewholder.btn.length; j++) {
                             if (cnt < ansbtn.length) {
                             if (view.getId() == viewholder.btn[j].getId()) {
+                                clickpos.add(j);
                                 ansbtn[cnt].setText("" + viewholder.btn[j].getText().toString());
                                 viewholder.btn[j].setVisibility(View.INVISIBLE);
                                 buffer.append(ansbtn[cnt].getText().toString());
-                                remove.add(ansbtn[cnt].getText());
                                 System.out.println("cnt=======" + cnt);
                                 System.out.println("buffer======"+buffer);
                                 cnt++;
@@ -181,6 +180,15 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
         viewholder.cnacel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(cnt!=0){
+                    ansbtn[cnt].setText("");
+                    int lll=clickpos.size();
+
+                    viewholder.btn[(clickpos.get(lll))].setVisibility(View.VISIBLE);
+                    cnt--;
+
+                }
+
             }
         });
     }
