@@ -1,6 +1,8 @@
 package com.example.logo_app.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,9 +32,10 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
    String finalans;
     ArrayList<String> image;
     String s;
-
     String[] split;
-    ArrayList<Character> chackans= new ArrayList<>();
+
+    Boolean alert=false;
+
     int cnt = 0, pos = 0;
 
 
@@ -51,25 +54,25 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
 
         viewholder viewholder = new viewholder(view);
-        charmaker(imgpos,viewholder);
         Log.d("TTT", "onCreate: FirstPosition="+imgpos);
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                cnt=0;
-                charmaker(position,viewholder);
-                Log.d("TTT", "onPageSelected: PagePosistion="+position);
 
-            }
-        });
         return viewholder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int position) {
-        charmaker(position,holder);
-        Log.d("TTT", "onBindViewHolder: BindingPosition="+position);
+    public void onBindViewHolder(@NonNull pager_view_adapter.viewholder holder, int positon) {
+        charmaker(positon,holder);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                //super.onPageSelected(position);
+                cnt=0;
+                charmaker(position,holder);
+                Log.d("TTT", "onPageSelected: PagePosistion="+position);
+
+            }
+        });
     }
 
     void charmaker(int position, viewholder viewholder)
@@ -167,6 +170,11 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
                                // System.out.println("cnt=======" + cnt);
                                 cnt++;
                                 chackwin(buffer);
+                                System.out.println("split==="+split[0].length());
+                                System.out.println("ansbtn.length==="+ansbtn.length);
+                                System.out.println("buffer===="+buffer);
+                                System.out.println("cnt===="+cnt);
+                                System.out.println("splitop===="+split[0]);
                             }
                         }
 
@@ -176,6 +184,15 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
             });
 
         }
+        System.out.println("split==="+split[0].length());
+        System.out.println("ansbtn.length==="+ansbtn.length);
+        System.out.println("buffer===="+buffer);
+        System.out.println("cnt===="+cnt);
+        if(cnt== ansbtn.length){
+            alert=true;
+            System.out.println("alert===="+alert);
+        }
+
         viewholder.clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,18 +228,30 @@ public class pager_view_adapter extends RecyclerView.Adapter<pager_view_adapter.
 
             }
         });
+
     }
 
     private void chackwin(StringBuffer buffer) {
-        if(split[0].equalsIgnoreCase(buffer.toString())||buffer.toString()==finalans.toString()){
+        if(split[0].equalsIgnoreCase(buffer.toString())){
             Toast.makeText(context, "Win this level", Toast.LENGTH_LONG).show();
             System.out.println("check win buffer==="+buffer);
-            buffer.delete(0,buffer.length());
-        }else {
-            System.out.println("else check win buffer==="+buffer);
-
+            buffer.delete(0,buffer.length()-1);
         }
-    }
+        if (alert==true ){
+            AlertDialog.Builder builder= new AlertDialog.Builder(context);
+            builder.setTitle("Incorrect");
+            builder.setMessage("Remove some latter and\ntry again.");
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    alert=false;
+                    builder.setCancelable(true);
+                }
+            });
+            builder.show();
+        }
+        }
+
 
 
     @Override
